@@ -75,7 +75,6 @@ int main(int argc, char **argv)
 
   while(1)
   {
-    
     if(-1==get_items_data(agent_ip, agent_port, search_keys, item_count, item_datas))
     {
       printf("error!!\n");
