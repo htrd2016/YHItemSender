@@ -1,0 +1,5 @@
+snmp_key=1dddd
+snmp_ip=101.195.96.254
+htrd_server_ip=12.168.103.112
+htrd_server_port=10051
+agent_host_name=cisco router
