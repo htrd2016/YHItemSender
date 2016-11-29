@@ -14,7 +14,7 @@ int get_items_data(const char *agent_ip, int agent_port, char(*search_keys)[512]
   for(index=0; index<count; index++)
   {
     sprintf(geter_cmd, "zabbix_get -s %s -p %d  -k \"%s\"", agent_ip, agent_port, search_keys[index]); 
-    run_cmd(geter_cmd, sizeof(geter_cmd), geter_ret, sizeof(geter_ret));
+    run_cmd(geter_cmd, geter_ret, sizeof(geter_ret));
 
     if (strchr(geter_ret, ':') != NULL)
     {
@@ -43,15 +43,14 @@ int main(int argc, char **argv)
   int server_port = -1;
   int time_interval = 1000;
   char items_file[512] = {0};
-  char temp_file_name[512] = {0};
 
   char search_keys[100][512];
   char item_keys[100][512];
   char item_datas[100][64];
   int item_count = 0;
-  if(argc<9)
+  if(argc<8)
   {
-     printf("params<agent ip to get item> <agent port> <agent host name> <server ip to send> <server port> <send data time interval(ms)> <item key config file><temp file name>\n");
+     printf("params<agent ip to get item> <agent port> <agent host name> <server ip to send> <server port> <send data time interval(ms)> <item key config file>\n");
      return -1;
   }
 
@@ -62,10 +61,9 @@ int main(int argc, char **argv)
   server_port = atoi(argv[5]);
   time_interval = atoi(argv[6]);
   strcpy(items_file, argv[7]);
-  strcpy(temp_file_name, argv[8]);
 
-  printf("agent ip:%s,agent port:%d,agent host name:%s,server ip:%s,server port:%d, time interval:%d,item key config file:%s,temp file name:%s\n",
-         agent_ip,agent_port, agent_host_name,server_ip,server_port, time_interval, items_file, temp_file_name);
+  printf("agent ip:%s,agent port:%d,agent host name:%s,server ip:%s,server port:%d, time interval:%d,item key config file:%s\n",
+         agent_ip,agent_port, agent_host_name,server_ip,server_port, time_interval, items_file);
 
   if(0>=parse_oids_items_to_array(items_file, search_keys, item_keys, &item_count))
   {
@@ -75,6 +73,7 @@ int main(int argc, char **argv)
 
   while(1)
   {
+    
     if(-1==get_items_data(agent_ip, agent_port, search_keys, item_count, item_datas))
     {
       printf("error!!\n");
@@ -82,13 +81,15 @@ int main(int argc, char **argv)
       continue;
     }
     
-   if(-1 == write_to_send_file(temp_file_name, agent_host_name, item_keys, item_datas, item_count))
-    {
-      perror("write file error!!!\n");
-      sleep(30);
-      continue;
-    }
-    send_file(server_ip, server_port, temp_file_name);
+   /*if(-1 == write_to_send_file(temp_file_name, agent_host_name, item_keys, item_datas, item_count))
+   {
+     perror("write file error!!!\n");
+     sleep(30);
+     continue;
+   }
+   send_file(server_ip, server_port, temp_file_name);*/
+
+    send_data(server_ip, server_port, agent_host_name, item_keys, item_datas, item_count);
 
 
 /*
