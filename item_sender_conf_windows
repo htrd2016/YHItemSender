@@ -1,0 +1,2 @@
+vm.memory.size[available] sender.vm.memory.size.available
+system.cpu.load[percpu,avg1] sender.system.cpu.load.percpu.avg1

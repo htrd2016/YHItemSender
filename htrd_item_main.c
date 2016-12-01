@@ -21,6 +21,7 @@ int get_items_data(const char *agent_ip, int agent_port, char(*search_keys)[512]
        return -1;
     }
 
+    printf("%s\n", geter_cmd);
     memset(datas_out[index], 0, 64);
     if(NULL != (end=strchr(geter_ret, '\n')))
     {

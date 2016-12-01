@@ -1,5 +1,5 @@
-snmp_key=yh
-snmp_ip=101.195.96.254
-htrd_server_ip=192.16.103.112
-htrd_server_port=1051
-agent_host_name=ci1sco router
+snmp_key=yhqh99
+snmp_ip=10.195.96.24
+htrd_server_ip=192.168.103.12
+htrd_server_port=100
+agent_host_name=cisco router
