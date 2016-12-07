@@ -1,5 +1,5 @@
 #!/bin/sh
-#params<agent ip to get item> <agent port> <agent host name> <server ip to send> <server port> <time interval to send(ms)> <keys file name> <temp file name to sender>
+#params<agent ip to get item> <agent port> <agent host name> <server ip to send> <server port> <time interval to send(ms)> <item keys config file>
 pkill htrdItemSender
 #rm -f *.log
 
