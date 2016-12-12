@@ -44,6 +44,7 @@ int main(int argc, char **argv)
   int server_port = -1;
   int time_interval = 1000;
   char items_file[512] = {0};
+  int error_time = 0;
 
   char search_keys[100][512];
   char item_keys[100][512];
@@ -79,20 +80,16 @@ int main(int argc, char **argv)
     {
       printf("error!!\n");
       sleep(30);
+      error_time++;
+      if (error_time>10)
+      {
+          restart_myself(argv);
+          return -1;
+      }
       continue;
     }
     
-   /*if(-1 == write_to_send_file(temp_file_name, agent_host_name, item_keys, item_datas, item_count))
-   {
-     perror("write file error!!!\n");
-     sleep(30);
-     continue;
-   }
-   send_file(server_ip, server_port, temp_file_name);*/
-
     send_data(server_ip, server_port, agent_host_name, item_keys, item_datas, item_count);
-
-
 /*
     gettimeofday (&tvpre , &tz);
     run_cmd(geter_cmd, sizeof(geter_cmd), geter_ret, sizeof(geter_ret));

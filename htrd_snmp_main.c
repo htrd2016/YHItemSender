@@ -84,6 +84,7 @@ int main(int argc, char **argv)
   char item_key[100][512];
   char item_data[100][64];
   int item_count = 0;
+  int error_time = 0;
 
   if (argc<8)
   {
@@ -114,17 +115,15 @@ int main(int argc, char **argv)
     {
       perror("get data from cisco error!!!\n");
       sleep(30);
+      error_time++;
+      if(error_time>50)
+      {
+         restart_myself(argv);
+         return -1;
+      }
       continue;
     }
-   send_data(htrd_server_ip, htrd_server_port, agent_host_name, item_key, item_data, item_count);
-
-/*    if(-1 == write_to_send_file(temp_file_name, agent_host_name, item_key, item_data, item_count))
-    {
-      perror("write file error!!!\n");
-      sleep(30);
-      continue;
-    }
-    send_file(htrd_server_ip, htrd_server_port, temp_file_name);  */
+    send_data(htrd_server_ip, htrd_server_port, agent_host_name, item_key, item_data, item_count);
     usleep(send_interal*1000);
   }
   
