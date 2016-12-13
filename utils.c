@@ -3,6 +3,16 @@
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
+int restart_myself(char **argv)
+{
+  if (execv(argv[0], argv))
+  {
+    /* ERROR, handle this yourself */
+    return -1;
+  }
+  return 0;
+}
+
 char* run_cmd(const char *cmd, char out_str[1024], int out_str_size)
 {
     FILE *fp = 0;

@@ -15,9 +15,9 @@ int get_items_data(const char *agent_ip, int agent_port, char(*search_keys)[512]
   {
     sprintf(geter_cmd, "zabbix_get -s %s -p %d  -k \"%s\"", agent_ip, agent_port, search_keys[index]); 
     run_cmd(geter_cmd, geter_ret, sizeof(geter_ret));
-
-    if (strchr(geter_ret, ':') != NULL)
+    if (strlen(geter_ret) == 0 || strchr(geter_ret, ':') != NULL)
     {
+       printf("error:%s\n", geter_ret);
        return -1;
     }
 
